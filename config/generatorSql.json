@@ -1,0 +1,48 @@
+{
+    "schema": {
+        "new": false,
+        "name": "constuctor"
+    },
+    "table": {
+        "name": "type_css_var",
+        "comment": "Тип css переменной",
+        "column": [
+            {
+                "name": "id",
+                "type": "int4",
+                "not-null": false,
+                "default": null,
+                "comment": "Первичный ключ",
+                "ai": true
+            },
+            {
+                "name": "name",
+                "type": "varchar",
+                "not-null": true,
+                "comment": "Имя типа css переменной"
+            },
+            {
+                "name": "description",
+                "type": "varchar",
+                "not-null": false,
+                "comment": "Описание типа css переменной"
+            },
+            {
+                "name": "active",
+                "type": "boolean",
+                "default": true,
+                "comment": "Активность типа css переменной"
+            },
+            {
+                "name": "const_name",
+                "type": "varchar",
+                "not-null": true,
+                "comment": "Программное название типа css переменной"
+            },
+            {
+                "key": "primary",
+                "name-column": "id"
+            }
+        ]
+    }
+}
