@@ -20,7 +20,7 @@ const createSqlCode = () => { // чтения файлов по конфигу
     let textSql = "";
     configCreateSql.files_sql.forEach(file_sql => {
         const fileContent = fs.readFileSync(`${PATH_WEB_SQL}${file_sql}`, 'utf8');
-        textSql += fileContent;
+        textSql += `${fileContent}\n`;
     })
     return textSql;
 }
