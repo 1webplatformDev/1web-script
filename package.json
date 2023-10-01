@@ -1,0 +1,10 @@
+{
+  "name": "node-script",
+  "version": "1.0.0",
+  "scripts": {
+    "sqlCreate": "node .\\src\\script\\createSql.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

@@ -1,0 +1,11 @@
+{
+	"files_sql": [
+		"/public/index.sql",
+		"/public/type_project.sql",
+		"/public/project.sql",
+		"/public/errors.sql",
+		"/constuctor/constuctor.sql",
+		"/constuctor/type_component.sql",
+		"/constuctor/type_css_var.sql"
+	]
+}
