@@ -3,7 +3,7 @@ const config = require("../../config/generatorSql.json");
 let sql = "";
 let sql_column_comment = "";
 
-function schemaAndTable(){
+function schemaAndTable() {
     return `${config.schema.name}.${config.table.name}`;
 }
 
@@ -28,10 +28,12 @@ const createTable = () => {
 
     createColumn();
     sql += `\n\n--  comments\n`;
+
     if (config.table.comment) {
         sql += `comment on table ${schemaAndTable()} is '${config.table.comment}';\n\n`;
     }
-    if(sql_column_comment){
+
+    if (sql_column_comment) {
         sql += sql_column_comment;
     }
 }
@@ -95,7 +97,26 @@ const createColumn = () => {
     sql += `\n)`;
 }
 
+const createTempFun = () => {
+    sql += "\n-- function\n\n";
+    createFunInsert();
+}
+
+const createFunInsert = () => {
+    createDropFun("_insert");
+    createCreateFun("_insert");
+}
+
+function createDropFun (string)  {
+    sql += `drop function if exists ${schemaAndTable()}${string};\n`;
+}
+
+function createCreateFun (string) {
+    sql += `create or replace function ${schemaAndTable()}${string}(\n`;
+}
+
 createSchema();
 createTable();
+createTempFun();
 
 console.log(sql);
