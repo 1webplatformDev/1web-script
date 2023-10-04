@@ -1,0 +1,15 @@
+{
+    "title": [
+        {
+            "match": "CMS-(\\d)*"
+        },
+        {
+            "text": " Доработка П2"
+        }
+    ],
+    "body": [
+        {
+            "fileContent": true
+        }
+    ]
+}
