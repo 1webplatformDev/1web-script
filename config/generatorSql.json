@@ -49,6 +49,7 @@
     },
     "function_temp": {
         "check_ui": true,
-        "insert": true
+        "insert": true,
+        "filter": true
     }
 }
