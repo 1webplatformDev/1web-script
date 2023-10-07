@@ -12,15 +12,11 @@ module.exports = {
 
     // конец создания функции
     createFunEnd() {
-        return `\n    end;
-$function$;`;
+        return `\n\tend;\n\t$function$;`;
     },
 
     // хардкодная часть функции
     createFunMetaData() {
-        return `    language  plpgsql
-    as $function$
-    begin
-    `;
+        return `\tlanguage plpgsql\n\tas $function$\n\tbegin\n`;
     }
 }

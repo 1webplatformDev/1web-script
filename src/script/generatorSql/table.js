@@ -16,7 +16,7 @@ const createColumn = (config) => {
             }
 
             column_sql += `constraint ${config.table.name}_pk primary key (${column['name-column']})`;
-            result += `    ${column_sql}\n,`;
+            result += `\t${column_sql}\n,`;
             continue;
         }
 
