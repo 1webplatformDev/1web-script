@@ -19,6 +19,7 @@
                 "name": "name",
                 "type": "varchar",
                 "not-null": true,
+                "ui": true,
                 "comment": "Имя типа css переменной"
             },
             {
@@ -37,6 +38,7 @@
                 "name": "const_name",
                 "type": "varchar",
                 "not-null": true,
+                "ui": true,
                 "comment": "Программное название типа css переменной"
             },
             {
@@ -44,5 +46,9 @@
                 "name-column": "id"
             }
         ]
+    },
+    "function_temp": {
+        "check_ui": true,
+        "insert": true
     }
 }

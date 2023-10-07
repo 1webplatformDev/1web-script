@@ -3,6 +3,7 @@ const { schemaAndTable } = require("./libs")
 const createColumn = (config) => {
     let result = ""; // результат функции
     let sql_column_comment = ""; // результат функции комментарии
+    let sql_ui = "";
     let index = -1;
 
     for (const column of config.table.column) {
@@ -37,6 +38,10 @@ const createColumn = (config) => {
             column_sql += ",";
         }
 
+        if (column.ui) {
+            sql_ui += `create unique index ${config.table.name}_${column.name}_idx on ${schemaAndTable(config)} using btree (${column.name});\n`;
+        }
+
         if (column.comment) {
             column_sql += ` -- ${column.comment}`;
             sql_column_comment += `comment on column ${schemaAndTable(config)}.${column.name} is '${column.comment}';\n`;
@@ -45,7 +50,7 @@ const createColumn = (config) => {
     }
     result = result.slice(0, result.length - 2);
     result += `\n)`;
-    return { result, sql_column_comment };
+    return { result, sql_column_comment, sql_ui };
 }
 
 module.exports = {
@@ -68,9 +73,12 @@ module.exports = {
         result += `-- alter sequence ${schemaAndTable(config)}_id_seq restart with 1;\n\n`;
         result += `create table ${schemaAndTable(config)} (\n`;
 
-        const { result: result_column, sql_column_comment } = createColumn(config);
+        const { result: result_column, sql_column_comment, sql_ui } = createColumn(config);
         result += result_column;
-        result += `\n\n--  comments\n`;
+        if (sql_ui) {
+            result += `\n\n${sql_ui}`;
+        }
+        result += `\n--  comments\n`;
 
         if (config.table.comment) {
             result += `comment on table ${schemaAndTable(config)} is '${config.table.comment}';\n\n`;
