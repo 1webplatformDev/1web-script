@@ -20,6 +20,13 @@
                 "type": "varchar",
                 "not-null": true,
                 "ui": true,
+                "ui_error": {
+                    "id": 4,
+                    "name": "Указанное имя типа css переменной уже существует",
+                    "description": null,
+                    "id_proekt": 2,
+                    "status": 400
+                },
                 "comment": "Имя типа css переменной"
             },
             {
@@ -39,6 +46,13 @@
                 "type": "varchar",
                 "not-null": true,
                 "ui": true,
+                "ui_error": {
+                    "id": 5,
+                    "name": "Указанное const_name типа css переменной уже существует",
+                    "description": null,
+                    "id_proekt": 2,
+                    "status": 400
+                },
                 "comment": "Программное название типа css переменной"
             },
             {

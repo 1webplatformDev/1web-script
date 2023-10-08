@@ -35,6 +35,31 @@ module.exports = {
         for (const index of indexs) {
             result += config.table.name[index];
         }
+
+        return result;
+    },
+
+    createDatasetError(config) {
+        let result = "\n\n-- в файл public/error.sql\n";
+
+        for (const column of config.table.column) {
+            const ui_error = column.ui_error;
+
+            if (column.ui_error) {
+                if (ui_error.name != null) {
+                    ui_error.name = `'${ui_error.name}'`;
+                }
+
+                if (ui_error.description != null) {
+                    ui_error.description = `'${ui_error.description}'`;
+                }
+
+                result += `insert into public.errors (id, "name", description, id_proekt, status)\n`;
+                result += `overriding system value values (${ui_error.id}, ${ui_error.name}, ${ui_error.description}, ${ui_error.id_proekt}, ${ui_error.status});\n\n`;
+            }
+
+        }
+
         return result;
     }
 }

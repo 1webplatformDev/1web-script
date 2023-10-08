@@ -18,5 +18,9 @@ module.exports = {
     // хардкодная часть функции
     createFunMetaData() {
         return `\tlanguage plpgsql\n\tas $function$\n\tbegin\n`;
+    },
+    // хардкодная часть функции
+    createFunMetaDataNotBegin() {
+        return `\tlanguage plpgsql\n\tas $function$\n`;
     }
 }
