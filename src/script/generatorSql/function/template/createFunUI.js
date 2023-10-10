@@ -51,16 +51,25 @@ const generatorParamsIndexFilter = (config) => {
         }
         result[result.length - 1].params += `_${columnsAiName}`;
     }
-    console.log(result);
     return result;
 }
 
 const funContent = (config) => {
     let result = "";
     const arrayParams = generatorParamsIndexFilter(config);
+    let ifsBlock = "";
     for (const params of arrayParams) {
         result += `\n\t\tselect count(*) into count_${params.name} from ${schemaAndTable(config)}_get_filter(${params.params});`
+        ifsBlock += `\t\tif count_${params.name} <> 0 then\n`;
+        ifsBlock += `\t\t\terror_array = array_append(error_array, error_id_${params.name});\n`;
+        ifsBlock += `\t\tend if;\n\n`;
     }
+    result += `\n\n${ifsBlock}`;
+    result += `\t\tif array_length(error_array, 1) <> 0 then\n`;
+    result += `\t\t\tselect * into errors_ from public.create_error_ids(error_array, 400);\n`;
+    result += `\t\t\treturn;\n`;
+    result += `\t\tend if;\n`;
+    result += `\n\t\tselect * into errors_ from public.create_error_json(null, 200);\n`;
     return result;
 }
 
@@ -71,7 +80,7 @@ module.exports = {
         result += createDropFun(config, name);
         result += createFun(config, name);
         result += generatorAutoParamsInUi(config);
-        result += `\t\nout errors_ json \n`;
+        result += `\n\tout errors_ json`;
         result += `\n)\n`;
         result += createFunMetaDataNotBegin();
         result += createDeclareUi(config);
