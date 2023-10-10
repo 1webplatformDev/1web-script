@@ -1,3 +1,4 @@
+const { schemaAndTable } = require("../../libs");
 const { createDropFun, createFun, createFunEnd, createFunMetaDataNotBegin } = require("../libs");
 
 // автоматическая генерация параметров in на основе уникальных значении
@@ -30,6 +31,39 @@ const createDeclareUi = (config) => {
     return result;
 }
 
+const generatorParamsIndexFilter = (config) => {
+    const result = [];
+    const columnsUi = config.table.column.filter((e) => e.ui);
+    const columnsAiName = config.table.column.filter((e) => e.ai)[0].name;
+    for (const columnUi of columnsUi) {
+        result.push({ params: "", name: columnUi.name });
+        for (const column of config.table.column) {
+
+            if (column.ui && column.name == columnUi.name) {
+                result[result.length - 1].params += `_${column.name}, `;
+                continue;
+            }
+
+            if (column.key) {
+                continue;
+            }
+            result[result.length - 1].params += "null, ";
+        }
+        result[result.length - 1].params += `_${columnsAiName}`;
+    }
+    console.log(result);
+    return result;
+}
+
+const funContent = (config) => {
+    let result = "";
+    const arrayParams = generatorParamsIndexFilter(config);
+    for (const params of arrayParams) {
+        result += `\n\t\tselect count(*) into count_${params.name} from ${schemaAndTable(config)}_get_filter(${params.params});`
+    }
+    return result;
+}
+
 module.exports = {
     createFunUI(config) {
         let result = "";
@@ -37,10 +71,12 @@ module.exports = {
         result += createDropFun(config, name);
         result += createFun(config, name);
         result += generatorAutoParamsInUi(config);
+        result += `\t\nout errors_ json \n`;
         result += `\n)\n`;
         result += createFunMetaDataNotBegin();
         result += createDeclareUi(config);
-        result += "\t\nbegin\n";
+        result += "\n\tbegin";
+        result += funContent(config);
         result += createFunEnd();
         result += `\n\n`;
         return result;
