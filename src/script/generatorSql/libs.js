@@ -43,9 +43,14 @@ module.exports = {
         let result = "\n\n-- в файл public/error.sql\n";
 
         for (const column of config.table.column) {
-            const ui_error = column.ui_error;
-
+            let ui_error;
             if (column.ui_error) {
+                ui_error = column.ui_error;
+            } else if (column["404_error"]) {
+                ui_error = column["404_error"];
+            }
+
+            if (ui_error) {
                 if (ui_error.name != null) {
                     ui_error.name = `'${ui_error.name}'`;
                 }
@@ -61,5 +66,24 @@ module.exports = {
         }
 
         return result;
+    },
+    createColumnParamsUi(config) {
+        let result = "";
+
+        for (const column of config.table.column) {
+
+            if (column.ai || column.key) {
+                continue;
+            }
+            if (column.ui) {
+                result += `${column.name} => _${column.name}, `;
+            }
+        }
+
+        result = result.slice(0, result.length - 2);
+        return result;
+    },
+    getAiColumn(config) {
+        return config.table.column.filter(column => column.ai)[0];
     }
 }

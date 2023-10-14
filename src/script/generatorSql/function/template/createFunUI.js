@@ -1,4 +1,4 @@
-const { schemaAndTable } = require("../../libs");
+const { schemaAndTable, getAiColumn } = require("../../libs");
 const { createDropFun, createFun, createFunEnd, createFunMetaDataNotBegin } = require("../libs");
 
 // автоматическая генерация параметров in на основе уникальных значении
@@ -34,7 +34,7 @@ const createDeclareUi = (config) => {
 const generatorParamsIndexFilter = (config) => {
     const result = [];
     const columnsUi = config.table.column.filter((e) => e.ui);
-    const columnsAiName = config.table.column.filter((e) => e.ai)[0].name;
+    const columnsAiName = getAiColumn(config).name;
     for (const columnUi of columnsUi) {
         result.push({ params: "", name: columnUi.name });
         for (const column of config.table.column) {

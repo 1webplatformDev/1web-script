@@ -13,7 +13,14 @@
                 "not-null": false,
                 "default": null,
                 "comment": "Первичный ключ",
-                "ai": true
+                "ai": true,
+                "404_error": {
+                    "id": 4,
+                    "name": "Запись с указаным id не существует",
+                    "description": null,
+                    "id_proekt": 2,
+                    "status": 404
+                }
             },
             {
                 "name": "name",
@@ -21,7 +28,7 @@
                 "not-null": true,
                 "ui": true,
                 "ui_error": {
-                    "id": 4,
+                    "id": 5,
                     "name": "Указанное имя типа css переменной уже существует",
                     "description": null,
                     "id_proekt": 2,
@@ -47,7 +54,7 @@
                 "not-null": true,
                 "ui": true,
                 "ui_error": {
-                    "id": 5,
+                    "id": 6,
                     "name": "Указанное const_name типа css переменной уже существует",
                     "description": null,
                     "id_proekt": 2,
