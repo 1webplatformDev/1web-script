@@ -49,7 +49,7 @@ const createColumn = (config) => {
         result += `    ${column_sql}\n`;
     }
     result = result.slice(0, result.length - 2);
-    result += `\n)`;
+    result += `\n);`;
     return { result, sql_column_comment, sql_ui };
 }
 

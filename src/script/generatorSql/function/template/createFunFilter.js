@@ -1,6 +1,9 @@
 const { createDropFun, createFun, createFunEnd, createFunMetaData } = require("../libs");
 const { schemaAndTable, tableAlias } = require("../../libs");
 
+/**
+ * TODO в конфиге создать filter_ignore
+ */
 const generatorInFunFilter = (config) => {
     let result = "";
     let sql_not_id = "";
@@ -9,7 +12,7 @@ const generatorInFunFilter = (config) => {
             result += `\t_${column.name} ${column.type} = null,\n`;
         }
         if (column.ai) {
-            sql_not_id = `\t_no${column.name} ${column.type} = null,\n`
+            sql_not_id = `\t_no_${column.name} ${column.type} = null,\n`
         }
 
     }
@@ -37,7 +40,7 @@ const generatorWhere = (config) => {
         result += `${alias_table_name}.${column.name} = _${column.name} or _${column.name} is null)`;
 
         if (column.ai) {
-            result += `${tab}and ${alias_table_name}.${column.name} <> _no_${column.name} or _no_${column.name} is null`;
+            result += `${tab}and (${alias_table_name}.${column.name} <> _no_${column.name} or _no_${column.name} is null)`;
         }
     }
 

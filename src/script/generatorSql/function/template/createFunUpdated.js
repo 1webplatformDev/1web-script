@@ -46,7 +46,7 @@ module.exports = {
         result += `\t\t\tselect * into result_ from public.create_error_ids(array[error_id], 404);\n`;
         result += `\t\t\treturn;\n`;
         result += `\t\tend if;\n\n`;
-        result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, ${aiName} => _${aiName});\n`;
+        result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, _${aiName} => _${aiName});\n`;
         result += `\t\tif (result_::json->'status_result')::text::int = 200 then\n`;
         result += `\t\t\tupdate ${schemaAndTable(config)}\n`;
         result += `\t\t\tset ${generatorUpdateText(config)}\n`;

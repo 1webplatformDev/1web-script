@@ -10,17 +10,24 @@ const generatorParamsOutInsert = () => {
 // автоматическая генерация параметров in insert
 const generatorAutoParamsInInsert = (config) => {
     let result = "";
-
+    let result_last = "";
     for (const column of config.table.column) {
 
         if (column.ai || column.key) {
             continue;
         }
+        if (!column["not-null"] && !column.default) {
+            result_last += `\tin _${column.name} ${column.type} = null,\n`;
+        } else if (!column["not-null"] && column.default) {
+            result_last += `\tin _${column.name} ${column.type} = ${column.default},\n`;
+        }
+        else {
+            result += `\tin _${column.name} ${column.type},\n`;
+        }
 
-        result += `    in _${column.name} ${column.type},\n`;
     }
-
-    result = result.slice(0, result.length - 2);
+    result += result_last;
+    result = result.slice(0, result.length - 1);
     return result;
 }
 

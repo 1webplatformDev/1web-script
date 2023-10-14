@@ -6,13 +6,13 @@ const generatorAutoParamsInUi = (config) => {
     let result = "";
     for (const column of config.table.column) {
         if (column.ui) {
-            result += `\tin _${column.name} ${column.type},\n`;
+            result += `\tin _${column.name} ${column.type} = null,\n`;
         }
         if (column.ai) {
             result += `\tin _${column.name} ${column.type} = null,\n`;
         }
     }
-    result = result.slice(0, result.length - 2);
+    result = result.slice(0, result.length - 1);
     return result;
 }
 
@@ -22,7 +22,7 @@ const createDeclareUi = (config) => {
     let result_error_var = "";
     for (const column of config.table.column) {
         if (column.ui) {
-            result += `\t\tcount_${column.name} ${column.type};\n`;
+            result += `\t\tcount_${column.name} int;\n`;
             result_error_var += `\t\terror_id_${column.name} int = ${column.ui_error.id};\n`;
         }
     }

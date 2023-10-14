@@ -76,7 +76,7 @@ module.exports = {
                 continue;
             }
             if (column.ui) {
-                result += `${column.name} => _${column.name}, `;
+                result += `_${column.name} => _${column.name}, `;
             }
         }
 
