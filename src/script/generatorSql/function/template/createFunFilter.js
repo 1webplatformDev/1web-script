@@ -6,10 +6,10 @@ const generatorInFunFilter = (config) => {
     let sql_not_id = "";
     for (const column of config.table.column) {
         if (!column.key) {
-            result += `\t\t_${column.name} ${column.type} = null,\n`;
+            result += `\t_${column.name} ${column.type} = null,\n`;
         }
         if (column.ai) {
-            sql_not_id = `\t\t_no${column.name} ${column.type} = null,\n`
+            sql_not_id = `\t_no${column.name} ${column.type} = null,\n`
         }
 
     }
@@ -54,7 +54,7 @@ module.exports = {
         result += createFun(config, name);
         result += generatorInFunFilter(config);
         result += `\n)\n`;
-        result += `returns SETOF ${schemaAndTable(config)}\n`;
+        result += `\treturns SETOF ${schemaAndTable(config)}\n`;
         result += createFunMetaData();
         result += `\t\treturn query ${tab}select * from ${schemaAndTable(config)} ${alias_table_name}`;
         result += generatorWhere(config);

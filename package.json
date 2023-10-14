@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "sqlCreate": "node .\\src\\script\\createSql.js",
-    "generatorSql": "node .\\src\\script\\generatorSql\\index.js"
+    "generatorSql": "node .\\src\\script\\generatorSql\\index.js",
+    "generatorReportToText": "node .\\src\\script\\generatorReportToText.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1"

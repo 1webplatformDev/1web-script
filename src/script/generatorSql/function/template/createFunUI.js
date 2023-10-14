@@ -69,7 +69,7 @@ const funContent = (config) => {
     result += `\t\t\tselect * into errors_ from public.create_error_ids(error_array, 400);\n`;
     result += `\t\t\treturn;\n`;
     result += `\t\tend if;\n`;
-    result += `\n\t\tselect * into errors_ from public.create_error_json(null, 200);\n`;
+    result += `\n\t\tselect * into errors_ from public.create_error_json(null, 200);`;
     return result;
 }
 

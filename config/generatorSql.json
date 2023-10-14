@@ -64,6 +64,7 @@
     "function_temp": {
         "check_ui": true,
         "insert": true,
-        "filter": true
+        "filter": true,
+        "updated": true
     }
 }

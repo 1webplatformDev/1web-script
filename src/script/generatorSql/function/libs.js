@@ -12,7 +12,7 @@ module.exports = {
 
     // конец создания функции
     createFunEnd() {
-        return `\n\tend;\n\t$function$;`;
+        return `\n\tend;\n$function$;`;
     },
 
     // хардкодная часть функции
