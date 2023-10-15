@@ -1,7 +1,8 @@
+function schemaAndTable(config) {
+    return `${config.schema.name}.${config.table.name}`;
+}
 module.exports = {
-    schemaAndTable: function schemaAndTable(config) {
-        return `${config.schema.name}.${config.table.name}`;
-    },
+    schemaAndTable,
     columnString(columns, pre_varchar) {
         let result = "";
 
@@ -85,5 +86,22 @@ module.exports = {
     },
     getAiColumn(config) {
         return config.table.column.filter(column => column.ai)[0];
+    },
+    getCommitFuction(config) {
+        const map = {
+            "check_ui": "_check_unieue",
+            "insert": "_insert",
+            "filter": "_get_filter",
+            "updated": "_updated"
+        }
+        let result = ""
+
+        for (const key in config.function_temp) {
+
+            if (map[key]) {
+                result += `--select * from ${schemaAndTable(config)}${map[key]};\n`;
+            }
+        }
+        return result;
     }
 }
