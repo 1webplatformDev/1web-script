@@ -1,16 +1,22 @@
 const { createDropFun, createFun, createFunEnd, createFunMetaData } = require("../libs");
 const { schemaAndTable, tableAlias } = require("../../libs");
 
-/**
- * TODO в конфиге создать filter_ignore
- */
+
+const ifsColumnWhere = (column) => {
+    return column.key || (column.ingore_filter && (!column.ui || !column.ai));
+}
+
+
 const generatorInFunFilter = (config) => {
     let result = "";
     let sql_not_id = "";
     for (const column of config.table.column) {
-        if (!column.key) {
-            result += `\t_${column.name} ${column.type} = null,\n`;
+        if (ifsColumnWhere(column)) {
+            continue;
         }
+
+        result += `\t_${column.name} ${column.type} = null,\n`;
+
         if (column.ai) {
             sql_not_id = `\t_no_${column.name} ${column.type} = null,\n`
         }
@@ -29,7 +35,7 @@ const generatorWhere = (config) => {
     for (const column of config.table.column) {
         index++;
 
-        if (column.key) {
+        if (ifsColumnWhere(column)) {
             continue;
         }
 
