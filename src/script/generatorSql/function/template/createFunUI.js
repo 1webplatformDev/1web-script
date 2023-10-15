@@ -40,16 +40,15 @@ const generatorParamsIndexFilter = (config) => {
         for (const column of config.table.column) {
 
             if (column.ui && column.name == columnUi.name) {
-                result[result.length - 1].params += `_${column.name}, `;
+                result[result.length - 1].params += `_${column.name} => _${column.name}, `;
                 continue;
             }
 
             if (column.key) {
                 continue;
             }
-            result[result.length - 1].params += "null, ";
         }
-        result[result.length - 1].params += `_${columnsAiName}`;
+        result[result.length - 1].params += `_${columnsAiName} => _${columnsAiName}`;
     }
     return result;
 }

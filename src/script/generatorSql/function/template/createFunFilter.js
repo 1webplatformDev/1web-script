@@ -23,7 +23,8 @@ const generatorInFunFilter = (config) => {
 
     }
     result += sql_not_id;
-    result = result.slice(0, result.length - 2);
+    result += "\t_limit int = null,\n";
+    result += "\t_offset int = null";
     return result;
 }
 
@@ -50,7 +51,7 @@ const generatorWhere = (config) => {
         }
     }
 
-    return `${result};`;
+    return `${result}`;
 }
 
 module.exports = {
@@ -67,6 +68,7 @@ module.exports = {
         result += createFunMetaData();
         result += `\t\treturn query ${tab}select * from ${schemaAndTable(config)} ${alias_table_name}`;
         result += generatorWhere(config);
+        result += `\n\t\t\tlimit _limit offset _offset;`
         result += createFunEnd();
         result += `\n\n`;
         return result;
