@@ -75,6 +75,9 @@ const funContent = (config) => {
 
 module.exports = {
     createFunUI(config) {
+        if (!config.function_temp.filter) {
+            throw new Error("Не возможно создать функцию без вспомогательной функциию filter");
+        }
         let result = "";
         const name = "_check_unieue";
         result += createDropFun(config, name);

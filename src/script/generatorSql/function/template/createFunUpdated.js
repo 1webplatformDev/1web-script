@@ -41,17 +41,26 @@ module.exports = {
         result += `\t\tcheck_rows int;\n`;
         result += `\t\terror_id int =  ${columnAi["404_error"].id};\n`;
         result += `\tbegin\n`;
-        result += `\t\tselect count(*) into check_rows from ${schemaAndTable(config)}_get_filter(_id);\n`;
-        result += `\t\tif check_rows = 0 then\n`
-        result += `\t\t\tselect * into result_ from public.create_error_ids(array[error_id], 404);\n`;
-        result += `\t\t\treturn;\n`;
-        result += `\t\tend if;\n\n`;
-        result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, _${aiName} => _${aiName});\n`;
-        result += `\t\tif (result_::json->'status_result')::text::int = 200 then\n`;
+
+        if (config.function_temp.filter) {
+            result += `\t\tselect count(*) into check_rows from ${schemaAndTable(config)}_get_filter(_id);\n`;
+            result += `\t\tif check_rows = 0 then\n`
+            result += `\t\t\tselect * into result_ from public.create_error_ids(array[error_id], 404);\n`;
+            result += `\t\t\treturn;\n`;
+            result += `\t\tend if;\n\n`;
+        }
+
+        if (config.function_temp.check_ui) {
+            result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, _${aiName} => _${aiName});\n`;
+            result += `\t\tif (result_::json->'status_result')::text::int = 200 then\n`;
+        }
+
         result += `\t\t\tupdate ${schemaAndTable(config)}\n`;
         result += `\t\t\tset ${generatorUpdateText(config)}\n`;
         result += `\t\t\twhere ${aiName} = _${aiName};\n`;
-        result += `\t\tend if;`;
+        if (config.function_temp.check_ui) {
+            result += `\t\tend if;`;
+        }
         result += createFunEnd();
         return result;
     }
