@@ -33,6 +33,9 @@ const createColumn = (config) => {
         if (column.default) {
             column_sql += ` default ${column.default}`
         }
+        if (column.FK) {
+            column_sql += ` REFERENCES ${column.FK.table} (${column.FK.key})`;
+        }
 
         if (index < config.table.column.length - 1) {
             column_sql += ",";
