@@ -1,8 +1,13 @@
 function schemaAndTable(config) {
     return `${config.schema.name}.${config.table.name}`;
 }
+function getAiColumn(config) {
+    return config.table.column.filter(column => column.ai)[0];
+}
+
 module.exports = {
     schemaAndTable,
+    getAiColumn,
     columnString(columns, pre_varchar) {
         let result = "";
 
@@ -84,9 +89,6 @@ module.exports = {
         result = result.slice(0, result.length - 2);
         return result;
     },
-    getAiColumn(config) {
-        return config.table.column.filter(column => column.ai)[0];
-    },
     getCommitFuction(config) {
         const map = {
             "check_ui": "_check_unieue",
@@ -95,13 +97,26 @@ module.exports = {
             "updated": "_updated",
             "check_id": "_check_id"
         }
-        
+
         let result = ""
 
         for (const key in config.function_temp) {
 
             if (map[key]) {
                 result += `--select * from ${schemaAndTable(config)}${map[key]};\n`;
+            }
+        }
+        return result;
+    },
+    generatorFKCheck(config, tab) {
+        const aiName = getAiColumn(config).name;
+        let result = "";
+        for (const column of config.table.column) {
+            if (column?.FK?.funCheck) {
+                result += `${tab}select * into result_ from ${column?.FK.table}_check_id(_id => _${aiName});\n`;
+                result += `${tab}if (result_::json->'status_result')::text::int = 404 then\n`;
+                result += `${tab}\treturn;\n`;
+                result += `${tab}end if;\n\n`;
             }
         }
         return result;

@@ -1,5 +1,5 @@
 const { createDropFun, createFun, createFunEnd, createFunMetaData } = require("../libs");
-const { schemaAndTable, createColumnParamsUi, getAiColumn } = require("../../libs");
+const { schemaAndTable, createColumnParamsUi, getAiColumn, generatorFKCheck } = require("../../libs");
 
 
 const generatorAutoParamsUpdated = (config) => {
@@ -44,7 +44,7 @@ module.exports = {
             result += "\t\t\treturn;\n";
             result += `\t\tend if;\n\n`;
         }
-
+        generatorFKCheck(config);
         if (config.function_temp.check_ui) {
             result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, ${paramsAiName});\n`;
             result += `\t\tif (result_::json->'status_result')::text::int = 200 then\n`;
