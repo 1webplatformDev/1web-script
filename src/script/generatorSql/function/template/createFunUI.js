@@ -48,7 +48,7 @@ const generatorParamsIndexFilter = (config) => {
                 continue;
             }
         }
-        result[result.length - 1].params += `no_${columnsAiName} => _${columnsAiName}`;
+        result[result.length - 1].params += `_no_${columnsAiName} => _${columnsAiName}`;
     }
     return result;
 }

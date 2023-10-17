@@ -109,11 +109,10 @@ module.exports = {
         return result;
     },
     generatorFKCheck(config, tab) {
-        const aiName = getAiColumn(config).name;
         let result = "";
         for (const column of config.table.column) {
             if (column?.FK?.funCheck) {
-                result += `${tab}select * into result_ from ${column?.FK.table}_check_id(_id => _${aiName});\n`;
+                result += `${tab}select * into result_ from ${column?.FK.table}_check_id(_id => _${column.name});\n`;
                 result += `${tab}if (result_::json->'status_result')::text::int = 404 then\n`;
                 result += `${tab}\treturn;\n`;
                 result += `${tab}end if;\n\n`;
