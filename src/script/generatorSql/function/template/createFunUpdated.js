@@ -1,4 +1,4 @@
-const { createDropFun, createFun, createFunEnd, createFunMetaDataNotBegin } = require("../libs");
+const { createDropFun, createFun, createFunEnd, createFunMetaData } = require("../libs");
 const { schemaAndTable, createColumnParamsUi, getAiColumn } = require("../../libs");
 
 
@@ -36,17 +36,12 @@ module.exports = {
         result += createFun(config, name);
         result += generatorAutoParamsUpdated(config);
         result += `\n)\n`;
-        result += createFunMetaDataNotBegin();
-        result += `\tdeclare\n`;
-        result += `\t\tcheck_rows int;\n`;
-        result += `\t\terror_id int =  ${columnAi["404_error"].id};\n`;
-        result += `\tbegin\n`;
+        result += createFunMetaData();
         const paramsAiName = `_${aiName} => _${aiName}`;
-        if (config.function_temp.filter) {
-            result += `\t\tselect count(*) into check_rows from ${schemaAndTable(config)}_get_filter(${paramsAiName});\n`;
-            result += `\t\tif check_rows = 0 then\n`
-            result += `\t\t\tselect * into result_ from public.create_error_ids(array[error_id], 404);\n`;
-            result += `\t\t\treturn;\n`;
+        if (config.function_temp.check_id) {
+            result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_id(_id => _${aiName});\n`;
+            result += "\t\tif (result_::json->'status_result')::text::int = 404 then\n";
+            result += "\t\t\treturn;\n";
             result += `\t\tend if;\n\n`;
         }
 

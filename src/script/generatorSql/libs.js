@@ -92,8 +92,10 @@ module.exports = {
             "check_ui": "_check_unieue",
             "insert": "_insert",
             "filter": "_get_filter",
-            "updated": "_updated"
+            "updated": "_updated",
+            "check_id": "_check_id"
         }
+        
         let result = ""
 
         for (const key in config.function_temp) {

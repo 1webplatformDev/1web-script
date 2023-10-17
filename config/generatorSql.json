@@ -4,8 +4,8 @@
         "name": "constuctor"
     },
     "table": {
-        "name": "css_class",
-        "comment": "css класс",
+        "name": "type_css_var",
+        "comment": "Тип css переменной",
         "column": [
             {
                 "name": "id",
@@ -15,7 +15,7 @@
                 "comment": "Первичный ключ",
                 "ai": true,
                 "404_error": {
-                    "id": 7,
+                    "id": 4,
                     "name": "Запись с указаным id не существует",
                     "description": null,
                     "id_proekt": 2,
@@ -23,41 +23,45 @@
                 }
             },
             {
-                "name": "id_type_component",
-                "type": "int4",
-                "not-null": true,
-                "comment": "Внешний ключ таблицы type_component",
-                "FK": {
-                    "table": "constuctor.type_component",
-                    "key": "id"
-                }
-            },
-            {
-                "name": "class_name",
+                "name": "name",
                 "type": "varchar",
                 "not-null": true,
                 "ui": true,
                 "ui_error": {
-                    "id": 8,
-                    "name": "Указанное имя css class уже существует",
+                    "id": 5,
+                    "name": "Указанное имя типа css переменной уже существует",
                     "description": null,
                     "id_proekt": 2,
                     "status": 400
                 },
-                "comment": "Имя css class"
+                "comment": "Имя типа css переменной"
             },
             {
                 "name": "description",
                 "type": "varchar",
                 "not-null": false,
                 "ingore_filter": true,
-                "comment": "Описание css class"
+                "comment": "Описание типа css переменной"
             },
             {
                 "name": "active",
                 "type": "boolean",
                 "default": true,
-                "comment": "Активность css class"
+                "comment": "Активность типа css переменной"
+            },
+            {
+                "name": "const_name",
+                "type": "varchar",
+                "not-null": true,
+                "ui": true,
+                "ui_error": {
+                    "id": 6,
+                    "name": "Указанное const_name типа css переменной уже существует",
+                    "description": null,
+                    "id_proekt": 2,
+                    "status": 400
+                },
+                "comment": "Программное название типа css переменной"
             },
             {
                 "key": "primary",
@@ -69,6 +73,7 @@
         "check_ui": true,
         "insert": true,
         "filter": true,
-        "updated": true
+        "updated": true,
+        "check_id": true
     }
 }
