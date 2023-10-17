@@ -16,6 +16,7 @@ module.exports = {
         result += `\t\tcheck_rows int;\n`;
         result += `\t\terror_id int = ${aiColumn["404_error"].id};\n`;
         result += `\tbegin\n`;
+        result += `\t\tselect * into result_ from public.create_error_ids(null, 200);\n`;
         result += `\t\tselect count(*) into check_rows from ${schemaAndTable(config)}_get_filter(_${aiColumn.name} => _id);\n`;
         result += `\t\tif check_rows = 0 then\n`;
         result += `\t\t\tselect * into result_ from public.create_error_ids(array[error_id], 404);\n`;

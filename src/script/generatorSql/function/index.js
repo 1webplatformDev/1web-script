@@ -24,7 +24,7 @@ module.exports = {
         if (config.function_temp.updated) {
             result += createFunUpdated(config);
         }
-        if (config.function_temp.updated) {
+        if (config.function_temp.check_id) {
             result += createFunCheckId(config);
         }
         return result;
