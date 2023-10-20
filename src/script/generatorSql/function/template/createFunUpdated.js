@@ -48,7 +48,11 @@ module.exports = {
         result += generatorFKCheck(config, "\t\t");
 
         if (config.function_temp.check_ui) {
-            result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${createColumnParamsUi(config)}, ${paramsAiName});\n`;
+            let params = `${createColumnParamsUi(config)}`;
+            if(params){
+                params += ","
+            }
+            result += `\t\tselect * into result_ from ${schemaAndTable(config)}_check_unieue(${params} ${paramsAiName});\n`;
             result += `\t\tif (result_::json->'status_result')::text::int = 200 then\n`;
         }
 
