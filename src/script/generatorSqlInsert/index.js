@@ -22,6 +22,8 @@ function createSqlInsert(table_name, elem) {
         column.push(key);
         if (typeof elem[key] == "string") {
             values.push(`'${elem[key]}'`);
+        } else if (elem[key] == null) {
+            values.push('null');
         } else {
             values.push(elem[key]);
         }
@@ -35,4 +37,4 @@ const createFile = (textSql, table_name) => { // создания файла
     fs.writeFileSync(`${pathTemp}\\${name}`, textSql);
 }
 
-generatorSqlInsert("constuctor.type_component", "id");
+generatorSqlInsert("constuctor.params_css_class", "id");
